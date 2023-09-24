@@ -12,7 +12,7 @@ export function App() {
             <h1 className="font-caveat text-8xl text-white text-shadow shadow-primary">
               BEEVER
             </h1>
-            <p className="font-caveat text-3xl text-white">
+            <p className="font-caveat text-3xl text-white text-center">
               Your open source streaming studio
             </p>
           </div>
