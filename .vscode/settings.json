@@ -1,5 +1,5 @@
 {
     "conventionalCommits.scopes": [
-        "ui"
+      "core", "studio", "api", "docs"
     ]
 }
