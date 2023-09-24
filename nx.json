@@ -7,31 +7,18 @@
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "YmE2OGFjZjctMDY5Mi00OTM5LTgwYWYtN2YwMDk3YmViMzVifHJlYWQtd3JpdGU="
       }
     }
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "test": {
-      "inputs": [
-        "default",
-        "^production"
-      ]
+      "inputs": ["default", "^production"]
     },
     "lint": {
       "inputs": [
@@ -42,17 +29,11 @@
       ]
     },
     "e2e": {
-      "inputs": [
-        "default",
-        "^production"
-      ]
+      "inputs": ["default", "^production"]
     }
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
