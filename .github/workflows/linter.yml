@@ -18,8 +18,8 @@ jobs:
         with:
           path: |
             **/node_modules
-            # Adding node version as cache key
-            key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
+          # Adding node version as cache key
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
