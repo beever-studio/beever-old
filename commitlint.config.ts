@@ -14,7 +14,9 @@ const Configuration: UserConfig = {
   /*
    * Any rules defined here will override rules from @commitlint/config-conventional
    */
-  rules: {},
+  rules: {
+    'scope-enum': [2, 'always', ['core', 'ui', 'api', 'docs', 'test']],
+  },
   /*
    * Functions that return true if commitlint should ignore the given message.
    */
