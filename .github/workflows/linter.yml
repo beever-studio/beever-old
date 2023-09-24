@@ -91,6 +91,6 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci --no-audit --prefer-offline --progress=false
       - name: Check prettier
-        run: npm run prettier . --check
+        run: npx nx format:check --all
       - name: Check ESLinter
         run: npx nx affected -t lint
