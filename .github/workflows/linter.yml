@@ -12,11 +12,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Get node version
-        id: node
-        run: |
-          echo "::set-output name=version::$(node -v)"
-
       - name: Get node_modules cache
         uses: actions/cache@v3
         id: cache
@@ -72,11 +67,6 @@ jobs:
         id: setup-node
         with:
           node-version: '18'
-
-      - name: Get node version
-        id: node
-        run: |
-          echo "::set-output name=version::$(node -v)"
 
       - name: Get node_modules cache
         uses: actions/cache@v3
