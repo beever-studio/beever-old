@@ -38,7 +38,7 @@ module.exports = {
           }),
         },
         { values: theme('textShadow') }
-      )
+      );
     }),
   ],
 };
