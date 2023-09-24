@@ -1,8 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
+import { Header } from './components/header';
 
 export function App() {
-  return <></>;
+  return (
+    <Header />
+  );
 }
 
 export default App;
