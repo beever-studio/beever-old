@@ -9,5 +9,5 @@
 }
 
 body {
-  @apply bg-primary p-4;
+  @apply bg-primary p-4 min-h-screen;
 }
