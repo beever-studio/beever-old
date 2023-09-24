@@ -1,0 +1,54 @@
+name: Feature request
+description: Suggest a new feature for Beever
+title: '[Feature Request]: '
+labels:
+  - 'type: feature-request'
+  - 'status: needs triage'
+body:
+  - type: checkboxes
+    attributes:
+      label: Is it new?
+      description: >-
+        Is there already an issue related to this request? if so add a comment
+        there to avoid duplicates.
+      options:
+        - label: I checked the existing issues
+          required: true
+  - type: dropdown
+    attributes:
+      label: Scope
+      description: Which part of the project is affected by this request?
+      options:
+        - studio
+        - workspace
+        - other
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Description
+      description: Explain the request in an clear and concise way
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed solution
+      description: How this feature would be implemendted in the project?
+  - type: textarea
+    attributes:
+      label: Alternatives considered
+      description: Are there alternative implementations?
+  - type: dropdown
+    attributes:
+      label: Contribution
+      description: Do you want to contribute with a pull request to implement this feature?
+      options:
+        - 'Yes'
+        - 'No'
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)
