@@ -10,7 +10,8 @@
     "@commitlint/format": "^17.4.4",
     "@swc/helpers": "~0.5.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-router-dom": "^6.16.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
@@ -30,6 +31,7 @@
     "@types/node": "18.14.2",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
+    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "@vitejs/plugin-react": "~4.0.0",

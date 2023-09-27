@@ -1,24 +1,25 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Header } from './components/header';
-import banner from '../assets/images/beaver.jpg';
+import { Header } from './components/Header';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+
+import { HomePage } from './pages/Home';
+
+const router = createBrowserRouter([
+  {
+    element: (
+      <>
+        <Header />
+        <main className="flex flex-col items-center justify-center pt-16">
+          <Outlet />
+        </main>
+      </>
+    ),
+    children: [{ path: '/', element: <HomePage /> }],
+  },
+]);
+
 export function App() {
   return (
-    <>
-      <Header />
-      <main className="flex items-center justify-center pt-20">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-          <img className="w-80 h-auto" src={banner} alt="" />
-          <div className="flex flex-col items-center">
-            <h1 className="font-caveat text-8xl text-white text-shadow shadow-primary">
-              BEEVER
-            </h1>
-            <p className="font-caveat text-3xl text-white text-center">
-              Your open source streaming studio
-            </p>
-          </div>
-        </div>
-      </main>
-    </>
+    <RouterProvider router={router} />
   );
 }
 
