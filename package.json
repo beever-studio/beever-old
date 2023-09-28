@@ -58,7 +58,7 @@
     "vitest": "~0.32.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "npx nx affected -t lint",
+    "*.{ts,tsx}": "eslint --cache --fix",
     "*": "npx nx format:write --all"
   }
 }

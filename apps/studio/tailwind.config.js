@@ -15,9 +15,11 @@ module.exports = {
     extend: {
       colors: {
         primary: '#fc0ef5',
+        secondary: '#3a1c46',
       },
       backgroundColor: {
-        primary: '#3a1c46',
+        primary: '#fc0ef5',
+        secondary: '#3a1c46',
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
