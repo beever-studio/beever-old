@@ -13,6 +13,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
+    "@nx/angular": "^16.10.0",
     "@nx/cypress": "16.9.0",
     "@nx/eslint-plugin": "16.9.0",
     "@nx/js": "16.9.0",
