@@ -9,6 +9,10 @@
   src: url('./assets/fonts/Caveat-Medium.ttf');
 }
 
+html, body { height: 100%; }
+
 body {
-  @apply bg-secondary p-4 min-h-screen;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  @apply p-4 min-h-screen;
 }
