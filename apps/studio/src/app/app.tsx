@@ -3,6 +3,8 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import { HomePage } from './pages/Home';
 import { RecordPage } from './pages/Record';
+import { SettingsProvider } from './context/settings.context';
+import { ConfigProvider, theme } from 'antd';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +24,20 @@ const router = createBrowserRouter([
 ]);
 
 export function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: theme.darkAlgorithm,
+        token: {
+          colorPrimary: '#fc0ef5',
+        },
+      }}
+    >
+      <SettingsProvider>
+        <RouterProvider router={router} />
+      </SettingsProvider>
+    </ConfigProvider>
+  );
 }
 
 export default App;

@@ -19,7 +19,7 @@ module.exports = {
       },
       backgroundColor: {
         primary: '#fc0ef5',
-        secondary: '#3a1c46',
+        secondary: '#141414',
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
