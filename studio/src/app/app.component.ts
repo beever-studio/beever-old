@@ -21,5 +21,6 @@ export class AppComponent {
     iconRegistry.addSvgIcon('volume', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/volume.svg'));
     iconRegistry.addSvgIcon('videocam', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/videocam.svg'));
     iconRegistry.addSvgIcon('videocam_off', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/videocam_off.svg'));
+    iconRegistry.addSvgIcon('capture', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/capture.svg'));
   }
 }

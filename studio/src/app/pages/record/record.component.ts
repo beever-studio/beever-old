@@ -51,6 +51,13 @@ import {MatIconModule} from "@angular/material/icon";
           >
               <img src="assets/icons/download.svg" alt=""/>
           </button>
+          <button
+                  class="border-2 border-gray-500 rounded-xl px-2 py-2"
+                  title="Take a snapshot"
+                  (click)="captureSnapshot()"
+          >
+              <img src="assets/icons/capture.svg" alt=""/>
+          </button>
       </section>
       <form class="flex flex-col">
           <div class="flex gap-2">
@@ -166,5 +173,23 @@ export default class RecordComponent implements AfterViewInit {
   toggleCam(): void {
     window.stream.getVideoTracks().forEach((track) => (track.enabled = !this.isCamOn()));
     this.isCamOn.update(isMuted => !isMuted);
+  }
+
+  captureSnapshot(): void {
+    const canvas = document.createElement('canvas');
+    canvas.width = this.video.nativeElement.videoWidth;
+    canvas.height = this.video.nativeElement.videoHeight;
+    canvas.getContext('2d')?.drawImage(this.video.nativeElement, 0, 0);
+    const image = canvas.toDataURL('image/png');
+
+    // download image
+    const a = document.createElement('a');
+    a.href = image;
+    a.download = 'snapshot.png';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+    });
   }
 }
