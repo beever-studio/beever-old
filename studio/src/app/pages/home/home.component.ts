@@ -21,6 +21,7 @@ import {MatButtonModule} from "@angular/material/button";
     <div class="flex justify-center gap-4 py-8">
       <a mat-stroked-button color="accent" routerLink="/record" [queryParams]="{source: 'camera'}">Camera recorder</a>
       <a mat-stroked-button color="accent" routerLink="/record" [queryParams]="{source: 'audio'}">Mic recorder</a>
+      <a mat-stroked-button color="accent" routerLink="/record" [queryParams]="{source: 'screen'}">Screen recorder</a>
     </div>
   `,
   imports: [

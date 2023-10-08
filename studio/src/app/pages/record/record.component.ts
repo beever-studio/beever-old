@@ -22,7 +22,7 @@ import {MatIconModule} from "@angular/material/icon";
   ],
   template: `
     <video
-      *ngIf="source === 'camera'"
+      *ngIf="source === 'camera' || source === 'screen'"
       #video
       class="rounded-lg border-2 border-primary p-2 bg-black"
       width="640"
@@ -78,7 +78,7 @@ import {MatIconModule} from "@angular/material/icon";
         </button>
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex gap-2" *ngIf="source !== 'screen'">
         <mat-form-field class="flex-grow">
           <mat-label>Audio device</mat-label>
           <mat-select>
@@ -91,6 +91,16 @@ import {MatIconModule} from "@angular/material/icon";
           <mat-icon [svgIcon]="audioIcon()"></mat-icon>
         </button>
       </div>
+
+      <mat-form-field class="flex-grow">
+        <mat-label>Screen sharing preference</mat-label>
+        <mat-select>
+          <mat-option value="default">Show default sharing options</mat-option>
+          <mat-option value="screen">Share entire screen</mat-option>
+          <mat-option value="window">Share application window</mat-option>
+          <mat-option value="browser">Share tab</mat-option>
+        </mat-select>
+      </mat-form-field>
     </form>
   `
 })
@@ -113,18 +123,64 @@ export default class RecordComponent implements AfterViewInit {
   @ViewChild('audio', {read: ElementRef}) audio!: ElementRef<HTMLAudioElement>;
 
   ngAfterViewInit() {
-    this.initCamera();
+    switch (this.source) {
+      case 'camera':
+        this.initCamera();
+        break;
+      case 'audio':
+        this.initAudio();
+        break;
+      case 'screen':
+        this.initScreen();
+        break;
+    }
   }
 
   initCamera(): void {
-    defer(() => navigator.mediaDevices.getUserMedia(this.setContraints())).subscribe({
+    defer(() => navigator.mediaDevices.getUserMedia({
+      video: {
+        width: 1280,
+        height: 720,
+      },
+      audio: true,
+    })).subscribe({
       next: (stream) => {
         window.stream = stream;
-        if (this.source === 'camera') {
-          this.video.nativeElement.srcObject = stream;
-        } else {
-          this.audio.nativeElement.srcObject = stream;
-        }
+        this.video.nativeElement.srcObject = stream;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+  initAudio(): void {
+    defer(() => navigator.mediaDevices.getUserMedia({
+      video: false,
+      audio: true,
+    })).subscribe({
+      next: (stream) => {
+        window.stream = stream;
+        this.audio.nativeElement.srcObject = stream;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+  initScreen(): void {
+    defer(() => navigator.mediaDevices.getDisplayMedia({
+      video: {
+        width: 1280,
+        height: 720,
+        displaySurface: 'default',
+      },
+      audio: true,
+    })).subscribe({
+      next: (stream) => {
+        window.stream = stream;
+        this.video.nativeElement.srcObject = stream;
       },
       error: (err) => {
         console.error(err);
@@ -196,17 +252,5 @@ export default class RecordComponent implements AfterViewInit {
     setTimeout(() => {
       document.body.removeChild(a);
     });
-  }
-
-  setContraints(): MediaStreamConstraints {
-    const videoConstraints = {
-      width: 1280,
-      height: 720,
-    };
-
-    return {
-      video: this.source === 'camera' ? videoConstraints : false,
-      audio: true,
-    }
   }
 }
