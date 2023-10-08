@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, computed, ElementRef, signal, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, computed, ElementRef, Input, signal, ViewChild} from "@angular/core";
 import {getSupportedMimeTypes} from "../../shared/utils/mime-type.util";
 import {defer} from "rxjs";
 import {getAudioInputDevices, getVideoDevices} from "../../shared/utils/media-devices.util";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
-import {AsyncPipe, NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 
@@ -17,77 +17,81 @@ import {MatIconModule} from "@angular/material/icon";
     AsyncPipe,
     NgForOf,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    NgIf
   ],
   template: `
-      <video
-              #video
-              class="rounded-lg border-2 border-primary p-2 bg-black"
-              width="640"
-              height="480"
-              playsInline
-              autoPlay
-              muted>
-      </video>
-      <section class="flex items-center justify-center gap-4 p-2">
-          <button
-                  class="border-2 border-gray-500 rounded-xl px-2 py-2"
-                  title="Start recording"
-                  (click)="startRecording()"
-          >
-              <img src="assets/icons/play_arrow.svg" alt=""/>
-          </button>
-          <button
-                  class="border-2 border-gray-500 rounded-xl px-2 py-2"
-                  title="Stop recording"
-                  (click)="stopRecording()"
-          >
-              <img src="assets/icons/stop.svg" alt=""/>
-          </button>
-          <button
-                  class="border-2 border-gray-500 rounded-xl px-2 py-2"
-                  title="Download recording"
-                  (click)="downloadRecording()"
-          >
-              <img src="assets/icons/download.svg" alt=""/>
-          </button>
-          <button
-                  class="border-2 border-gray-500 rounded-xl px-2 py-2"
-                  title="Take a snapshot"
-                  (click)="captureSnapshot()"
-          >
-              <img src="assets/icons/capture.svg" alt=""/>
-          </button>
-      </section>
-      <form class="flex flex-col">
-          <div class="flex gap-2">
-              <mat-form-field class="flex-grow">
-                  <mat-label>Video device</mat-label>
-                  <mat-select>
-                      <mat-option *ngFor="let device of videoDevices$ | async" [value]="device.deviceId">
-                          {{device.label}}
-                      </mat-option>
-                  </mat-select>
-              </mat-form-field>
-              <button mat-icon-button type="button" (click)="toggleCam()">
-                  <mat-icon [svgIcon]="camIcon()"></mat-icon>
-              </button>
-          </div>
+    <video
+      *ngIf="source === 'camera'"
+      #video
+      class="rounded-lg border-2 border-primary p-2 bg-black"
+      width="640"
+      height="480"
+      playsInline
+      autoPlay
+      muted>
+    </video>
+    <audio *ngIf="source === 'audio'" #audio controls autoplay></audio>
+    <section class="flex items-center justify-center gap-4 p-2">
+      <button
+        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        title="Start recording"
+        (click)="startRecording()"
+      >
+        <img src="assets/icons/play_arrow.svg" alt=""/>
+      </button>
+      <button
+        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        title="Stop recording"
+        (click)="stopRecording()"
+      >
+        <img src="assets/icons/stop.svg" alt=""/>
+      </button>
+      <button
+        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        title="Download recording"
+        (click)="downloadRecording()"
+      >
+        <img src="assets/icons/download.svg" alt=""/>
+      </button>
+      <button
+        *ngIf="source === 'camera'"
+        class="border-2 border-gray-500 rounded-xl px-2 py-2"
+        title="Take a snapshot"
+        (click)="captureSnapshot()"
+      >
+        <img src="assets/icons/capture.svg" alt=""/>
+      </button>
+    </section>
+    <form class="flex flex-col">
+      <div class="flex gap-2" *ngIf="source === 'camera'">
+        <mat-form-field class="flex-grow">
+          <mat-label>Video device</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let device of videoDevices$ | async" [value]="device.deviceId">
+              {{device.label}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="toggleCam()">
+          <mat-icon [svgIcon]="camIcon()"></mat-icon>
+        </button>
+      </div>
 
-          <div class="flex gap-2">
-              <mat-form-field class="flex-grow">
-                  <mat-label>Audio device</mat-label>
-                  <mat-select>
-                      <mat-option *ngFor="let device of audioInputDevices$ | async" [value]="device.deviceId">
-                          {{device.label}}
-                      </mat-option>
-                  </mat-select>
-              </mat-form-field>
-              <button mat-icon-button type="button" (click)="toggleAudio()">
-                  <mat-icon [svgIcon]="audioIcon()"></mat-icon>
-              </button>
-          </div>
-      </form>
+      <div class="flex gap-2">
+        <mat-form-field class="flex-grow">
+          <mat-label>Audio device</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let device of audioInputDevices$ | async" [value]="device.deviceId">
+              {{device.label}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="toggleAudio()">
+          <mat-icon [svgIcon]="audioIcon()"></mat-icon>
+        </button>
+      </div>
+    </form>
   `
 })
 export default class RecordComponent implements AfterViewInit {
@@ -103,23 +107,24 @@ export default class RecordComponent implements AfterViewInit {
   audioIcon = computed(() => this.isAudioOn() ? 'volume' : 'volume_off');
   camIcon = computed(() => this.isCamOn() ? 'videocam' : 'videocam_off');
 
+  @Input() source: 'camera' | 'audio' | 'screen' = 'camera';
+
   @ViewChild('video', {read: ElementRef}) video!: ElementRef<HTMLVideoElement>;
+  @ViewChild('audio', {read: ElementRef}) audio!: ElementRef<HTMLAudioElement>;
 
   ngAfterViewInit() {
     this.initCamera();
   }
 
   initCamera(): void {
-    defer(() => navigator.mediaDevices.getUserMedia({
-      video: {
-        width: 1280,
-        height: 720,
-      },
-      audio: true,
-    })).subscribe({
+    defer(() => navigator.mediaDevices.getUserMedia(this.setContraints())).subscribe({
       next: (stream) => {
         window.stream = stream;
-        this.video.nativeElement.srcObject = stream;
+        if (this.source === 'camera') {
+          this.video.nativeElement.srcObject = stream;
+        } else {
+          this.audio.nativeElement.srcObject = stream;
+        }
       },
       error: (err) => {
         console.error(err);
@@ -191,5 +196,17 @@ export default class RecordComponent implements AfterViewInit {
     setTimeout(() => {
       document.body.removeChild(a);
     });
+  }
+
+  setContraints(): MediaStreamConstraints {
+    const videoConstraints = {
+      width: 1280,
+      height: 720,
+    };
+
+    return {
+      video: this.source === 'camera' ? videoConstraints : false,
+      audio: true,
+    }
   }
 }
