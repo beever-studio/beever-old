@@ -9,7 +9,7 @@ import {MatButtonModule} from "@angular/material/button";
     <div class="flex flex-col sm:flex-row items-center justify-center gap-8">
       <img class="w-80 h-auto" src="assets/images/beaver.jpg" alt=""/>
       <div class="flex flex-col items-center">
-        <h1 class="font-caveat text-8xl text-white text-shadow shadow-primary">
+        <h1 class="font-caveat text-8xl text-white">
           BEEVER
         </h1>
         <p class="font-caveat text-3xl text-white text-center">
